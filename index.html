@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1>Digital Store</h1>
+    <ul>
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+      <li><a href="#" onclick="showPage('cart')">Cart</a></li>
+      <li id="loginLink"><a href="#" onclick="showPage('login')">Login</a></li>
+      <li id="profileLink" style="display:none;"><a href="#" onclick="showPage('dashboard')">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Pages -->
+  <section id="home" class="page">
+    <div class="banner">
+      <h2>Welcome to the Digital Store</h2>
+      <p>Buy eBooks, PDFs, and Courses instantly!</p>
+    </div>
+    <div id="featuredProducts" class="product-grid"></div>
+  </section>
+
+  <section id="shop" class="page hidden">
+    <h2>Shop Digital Products</h2>
+    <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
+    <div id="productGrid" class="product-grid"></div>
+  </section>
+
+  <section id="cart" class="page hidden">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <button onclick="checkout()">Checkout</button>
+  </section>
+
+  <section id="login" class="page hidden">
+    <h2>Login / Signup</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="signup()">Signup</button>
+    <button onclick="login()">Login</button>
+  </section>
+
+  <section id="dashboard" class="page hidden">
+    <h2>My Products</h2>
+    <div id="myProducts"></div>
+    <button onclick="logout()">Logout</button>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
