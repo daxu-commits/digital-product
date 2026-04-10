@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>POD Store</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Minimal styles for clarity */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .navbar { background:#222; color:#fff; padding:12px 20px; display:flex; align-items:center; justify-content:space-between; }
+    .navbar h1 { margin:0; font-size:20px; }
+    .navbar ul { list-style:none; margin:0; padding:0; display:flex; gap:12px; }
+    .navbar a { color:#fff; text-decoration:none; }
+    .page { padding:20px; }
+    .hidden { display:none; }
+    .banner { background:#f4f4f4; padding:20px; border-radius:6px; margin-bottom:16px; }
+    .product-grid { display:flex; gap:12px; flex-wrap:wrap; }
+    .success-message { color:green; margin-top:12px; }
+    .qr-container { display:flex; gap:20px; align-items:center; margin-bottom:12px; }
+    .qr-container img { width:180px; height:180px; object-fit:contain; border:1px solid #ddd; padding:8px; background:#fff; }
+    .btn { padding:8px 12px; border:0; background:#0078d4; color:#fff; border-radius:4px; cursor:pointer; }
+    .btn.secondary { background:#555; }
+    label { display:block; margin-top:8px; }
+  </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <h1>POD Store</h1>
     <ul>
@@ -16,87 +32,167 @@
       <li><a href="#" onclick="showPage('shop')">Products</a></li>
       <li><a href="#" onclick="showPage('cart')">Cart</a></li>
       <li id="loginLink"><a href="#" onclick="showPage('login')">Login</a></li>
-      <li id="profileLink" class="hidden">
-        <a href="#" onclick="showPage('dashboard')">Profile</a>
-      </li>
+      <li id="profileLink" class="hidden"><a href="#" onclick="showPage('dashboard')">Profile</a></li>
     </ul>
   </nav>
 
-  <!-- HOME -->
   <section id="home" class="page">
     <div class="banner">
       <h2>Welcome to POD Store</h2>
       <p>Print your memories on T-shirts, mugs, notebooks, stickers & more!</p>
-      <button onclick="showPage('shop')">Start Shopping</button>
+      <button class="btn" onclick="showPage('shop')">Start Shopping</button>
     </div>
 
     <h3>Featured Products</h3>
     <div id="featuredProducts" class="product-grid"></div>
   </section>
 
-  <!-- SHOP -->
   <section id="shop" class="page hidden">
     <h2>Choose Your Product</h2>
     <p>Select what you want to customize.</p>
 
     <div class="product-options">
-      <button onclick="selectProduct('T-Shirt')">T-Shirt</button>
-      <button onclick="selectProduct('Mug')">Mug</button>
-      <button onclick="selectProduct('Notebook')">Notebook</button>
-      <button onclick="selectProduct('Sticker')">Sticker</button>
+      <button class="btn" onclick="selectProduct('T-Shirt')">T-Shirt</button>
+      <button class="btn" onclick="selectProduct('Mug')">Mug</button>
+      <button class="btn" onclick="selectProduct('Notebook')">Notebook</button>
+      <button class="btn" onclick="selectProduct('Sticker')">Sticker</button>
     </div>
 
-    <!-- Upload Section -->
     <div id="uploadSection" class="hidden">
       <h3>Upload Your Image</h3>
-      <label for="uploadImage">Choose Image:</label>
+      <label for="uploadImage">Choose Image</label>
       <input type="file" id="uploadImage" accept="image/*">
-
-      <button onclick="addToCart()">Add to Cart</button>
+      <button class="btn" onclick="addToCart()">Add to Cart</button>
     </div>
   </section>
 
-  <!-- CART -->
   <section id="cart" class="page hidden">
     <h2>Your Order</h2>
     <div id="cartItems"></div>
 
     <h3>Payment</h3>
-    <p>Pay via UPI and upload screenshot below.</p>
 
-    <label for="paymentProof">Upload Payment Screenshot:</label>
-    <input type="file" id="paymentProof" accept="image/*">
+    <!-- New flow: show QR and instruction first -->
+    <div id="paymentStep" class="qr-container">
+      <div>
+        <strong>Pay on this QR code</strong>
+        <div style="margin-top:8px;">
+          <!-- Replace src with your QR image file or set it dynamically -->
+          <img id="qrImage" src="qr.png" alt="QR Code">
+        </div>
+      </div>
 
-    <button onclick="checkout()">Confirm Order</button>
+      <div>
+        <p>After scanning and paying, open the PDF receipt you want to attach or directly upload the payment screenshot below.</p>
 
-    <p id="orderMessage" class="success-message hidden">
-      ✅ Order placed successfully! Delivery will take 7–10 days.
-    </p>
+        <!-- PDF input that opens the selected PDF in a new tab -->
+        <label for="pdfFile">Open PDF</label>
+        <input type="file" id="pdfFile" accept="application/pdf">
+        <br><br>
+
+        <!-- Upload payment screenshot -->
+        <label for="paymentProof">Upload Payment Screenshot</label>
+        <input type="file" id="paymentProof" accept="image/*">
+        <br><br>
+
+        <button class="btn" onclick="checkout()">Confirm Order</button>
+      </div>
+    </div>
+
+    <p id="orderMessage" class="success-message hidden">✅ Order placed successfully! Delivery will take 7–10 days.</p>
   </section>
 
-  <!-- LOGIN -->
   <section id="login" class="page hidden">
     <h2>Login / Signup</h2>
-
     <form onsubmit="event.preventDefault(); login();">
       <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
-
       <div class="auth-buttons">
-        <button type="button" onclick="signup()">Signup</button>
-        <button type="submit">Login</button>
+        <button type="button" class="btn secondary" onclick="signup()">Signup</button>
+        <button type="submit" class="btn">Login</button>
       </div>
     </form>
   </section>
 
-  <!-- DASHBOARD -->
   <section id="dashboard" class="page hidden">
     <h2>My Orders</h2>
     <div id="myProducts"></div>
-
-    <button onclick="logout()">Logout</button>
+    <button class="btn" onclick="logout()">Logout</button>
   </section>
 
-  <script src="script.js"></script>
+  <script>
+    // Basic navigation
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // Placeholder cart and product functions
+    let cart = [];
+    function selectProduct(name) {
+      alert('Selected ' + name + '. Now upload an image to customize.');
+      document.getElementById('uploadSection').classList.remove('hidden');
+    }
+    function addToCart() {
+      const file = document.getElementById('uploadImage').files[0];
+      if (!file) { alert('Please choose an image first'); return; }
+      cart.push({ name: 'Custom product', fileName: file.name });
+      renderCart();
+      showPage('cart');
+    }
+
+    function renderCart() {
+      const el = document.getElementById('cartItems');
+      if (cart.length === 0) el.innerHTML = '<p>No items in cart</p>';
+      else el.innerHTML = cart.map((c, i) => '<div>' + (i+1) + '. ' + c.name + ' - ' + c.fileName + '</div>').join('');
+    }
+
+    // Open PDF in new tab when user selects it
+    const pdfInput = document.getElementById('pdfFile');
+    pdfInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      // Open PDF in a new tab
+      window.open(url, '_blank');
+      // Optionally revoke object URL after a short delay
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    });
+
+    // Checkout validates that a payment proof image is uploaded
+    function checkout() {
+      const proof = document.getElementById('paymentProof').files[0];
+      if (!proof) {
+        alert('Please upload the payment screenshot before confirming the order.');
+        return;
+      }
+
+      // Simulate upload and order placement
+      // In a real app you would send the file to your server here
+      document.getElementById('orderMessage').classList.remove('hidden');
+      // Clear cart and inputs
+      cart = [];
+      renderCart();
+      document.getElementById('paymentProof').value = '';
+      document.getElementById('pdfFile').value = '';
+    }
+
+    // Simple auth placeholders
+    function signup() { alert('Signup flow placeholder'); }
+    function login() {
+      document.getElementById('loginLink').classList.add('hidden');
+      document.getElementById('profileLink').classList.remove('hidden');
+      showPage('dashboard');
+    }
+    function logout() {
+      document.getElementById('loginLink').classList.remove('hidden');
+      document.getElementById('profileLink').classList.add('hidden');
+      showPage('home');
+    }
+
+    // Initialize
+    renderCart();
+    showPage('home');
+  </script>
 </body>
 </html>
