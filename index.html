@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Store</title>
+  <title>POD Store</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <h1>Digital Store</h1>
+    <h1>POD Store</h1>
     <ul>
       <li><a href="#" onclick="showPage('home')">Home</a></li>
-      <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+      <li><a href="#" onclick="showPage('shop')">Products</a></li>
       <li><a href="#" onclick="showPage('cart')">Cart</a></li>
       <li id="loginLink"><a href="#" onclick="showPage('login')">Login</a></li>
       <li id="profileLink" style="display:none;"><a href="#" onclick="showPage('dashboard')">Profile</a></li>
@@ -22,22 +22,34 @@
   <!-- Pages -->
   <section id="home" class="page">
     <div class="banner">
-      <h2>Welcome to the Digital Store</h2>
-      <p>Buy eBooks, PDFs, and Courses instantly!</p>
+      <h2>Welcome to POD Store</h2>
+      <p>Print your memories on T‑shirts, mugs, notebooks, stickers & more!</p>
     </div>
     <div id="featuredProducts" class="product-grid"></div>
   </section>
 
   <section id="shop" class="page hidden">
-    <h2>Shop Digital Products</h2>
-    <input type="text" id="searchBar" placeholder="Search products..." onkeyup="searchProducts()">
-    <div id="productGrid" class="product-grid"></div>
+    <h2>Choose Your Product</h2>
+    <p>Select what you want to print for birthdays or any occasion.</p>
+    <div class="product-options">
+      <button onclick="selectProduct('T-Shirt')">T-Shirt</button>
+      <button onclick="selectProduct('Mug')">Mug</button>
+      <button onclick="selectProduct('Notebook')">Notebook</button>
+      <button onclick="selectProduct('Sticker')">Sticker</button>
+    </div>
+    <div id="uploadSection" style="display:none;">
+      <h3>Upload Your Picture</h3>
+      <input type="file" id="uploadImage" accept="image/*">
+    </div>
   </section>
 
   <section id="cart" class="page hidden">
-    <h2>Your Cart</h2>
+    <h2>Your Order</h2>
     <div id="cartItems"></div>
-    <button onclick="checkout()">Checkout</button>
+    <p>After checkout, please upload payment proof picture.</p>
+    <input type="file" id="paymentProof" accept="image/*">
+    <button onclick="checkout()">Confirm Order</button>
+    <p id="orderMessage" style="display:none;">Your order is done! Delivery will take 10 days.</p>
   </section>
 
   <section id="login" class="page hidden">
@@ -49,7 +61,7 @@
   </section>
 
   <section id="dashboard" class="page hidden">
-    <h2>My Products</h2>
+    <h2>My Orders</h2>
     <div id="myProducts"></div>
     <button onclick="logout()">Logout</button>
   </section>
